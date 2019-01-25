@@ -1,9 +1,8 @@
 'use strict';
-
+const igdb = require('igdb-api-node').default;
+const client = igdb('58a2e35521ffe630ea86d44d7e85ac00');
 
 exports.find_game_by_id = function (req, res) {
-  const igdb = require('igdb-api-node').default;
-  const client = igdb('58a2e35521ffe630ea86d44d7e85ac00');
   console.log(req.params)
   return client.games({
     fields: '*',

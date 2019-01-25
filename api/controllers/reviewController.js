@@ -17,6 +17,8 @@ exports.find_review = function(req, res) {
 
 exports.create_a_review = function(req, res) {
   var new_review = new Review(req.body);
+  new_review.userId = req.params.userId;
+  new_review.gameId = req.params.gameId;
   new_review.save(function(err, review) {
     if (err)
       res.send(err);
