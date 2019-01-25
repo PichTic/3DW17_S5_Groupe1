@@ -10,10 +10,13 @@ module.exports = function(app) {
     .post(review.create_a_review)
     .delete(review.delete_a_review);
 
+  app.route('/users/:userId/reviews')
+    .get(review.find_all_user_reviews)
+
   app.route('/game/:gameId')
     .get(game.find_game_by_id);
 
   app.route('/search/:text')
-    .get(game.find_Game_By_Key_Word);
+    .get(game.find_game_by_key_word);
 };
 

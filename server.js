@@ -9,26 +9,20 @@ var express = require('express'),
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost/Reviewdb');
 
-
-
-var routes = require('./api/routes/reviewRoutes'); //importing route
-routes(app); //register the route
+app.listen(port);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(function(req, res, next) {
-  console.log('%s %s', req.method, req.url);
+var routes = require('./api/routes/reviewRoutes'); //importing route
+routes(app); //register the route
 
+app.use(function(req, res, next) {
   res.header('Content-Type', 'application/json');
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   res.status(404).send({url: req.originalUrl + ' not found'})
   next();
 });
-
-
-app.listen(port);
-
 
 console.log('Review RESTful API server started on: ' + port);

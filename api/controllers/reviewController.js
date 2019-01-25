@@ -5,15 +5,27 @@ var mongoose = require('mongoose'),
   Review = mongoose.model('Reviews');
 
 exports.find_review = function(req, res) {
-  Review.find({}, function(err, review) {
+  Review.find({gameId: req.params.gameId}, function(err, review) {
     if (err)
       res.send(err);
     res.json(review);
   });
 };
 
+exports.find_all_user_reviews = function(req, res) {
+  Review.find({userId: req.params.userId}, function(err, review) {
+    if (err)
+    {
+      console.error(err);
+      res.json(err);
+    }
+    res.json(review);
+  });
+};
+
 exports.create_a_review = function(req, res) {
   var new_review = new Review(req.body);
+  console.log(req);
   new_review.userId = req.params.userId;
   new_review.gameId = req.params.gameId;
   new_review.save(function(err, review) {
@@ -24,7 +36,7 @@ exports.create_a_review = function(req, res) {
 };
 
 exports.update_a_review = function(req, res) {
-  Review.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true}, function(err, review) {
+  Review.findOneAndUpdate({userId: req.params.userId}, req.body, {new: true}, function(err, review) {
     if (err)
       res.send(err);
     res.json(review);
@@ -33,11 +45,10 @@ exports.update_a_review = function(req, res) {
 
 
 exports.delete_a_review = function(req, res) {
-
-
   Review.remove({
-    _id: req.params.reviewId
-  }, function(err, task) {
+    userId: req.params.userId,
+    gameId: req.params.gameId
+  }, function(err, review) {
     if (err)
       res.send(err);
     res.json({ message: 'review successfully deleted' });

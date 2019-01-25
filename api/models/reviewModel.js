@@ -13,7 +13,8 @@ var ReviewSchema = new Schema({
     required: 'Une review doit avoir un UserId'
   },
   score: {
-    type: Number,
+    type: String,
+    default: null
   }
 });
 
