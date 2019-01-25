@@ -12,9 +12,6 @@ exports.find_review = function(req, res) {
   });
 };
 
-
-
-
 exports.create_a_review = function(req, res) {
   var new_review = new Review(req.body);
   new_review.userId = req.params.userId;
@@ -26,18 +23,8 @@ exports.create_a_review = function(req, res) {
   });
 };
 
-
-exports.read_a_review = function(req, res) {
-  Review.findById(req.params.reviewId, function(err, review) {
-    if (err)
-      res.send(err);
-    res.json(review);
-  });
-};
-
-
 exports.update_a_review = function(req, res) {
-  Review.findOneAndUpdate({_id: req.params.reviewId}, req.body, {new: true}, function(err, review) {
+  Review.findOneAndUpdate({_id: req.params.userId}, req.body, {new: true}, function(err, review) {
     if (err)
       res.send(err);
     res.json(review);
