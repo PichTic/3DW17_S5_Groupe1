@@ -18,5 +18,8 @@ module.exports = function(app) {
 
   app.route('/search/:text')
     .get(game.find_game_by_key_word);
+
+  app.route('/cache-del')
+    .get(game.cache_delete);
 };
 
