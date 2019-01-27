@@ -17,7 +17,6 @@ exports.find_all_user_reviews = function(req, res) {
     if (err)
     {
       res.send("Une erreur s'est produite lors de la récupération des données");
-      res.json(err);
     }
     res.json(review);
   });
