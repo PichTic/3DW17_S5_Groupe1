@@ -14,7 +14,6 @@ function cache_store(json, id) {
     return true;
   }
   catch(error) {
-    console.log(error);
     return false;
   }
   
@@ -48,7 +47,7 @@ exports.find_game_by_id = function (req, res) {
   })
   // To do renvoyer les erreurs
   .catch(e => {
-    res.send(e)
+    res.send("Erreur, merci de réesayer ultérieurement")
   });
   }
 
@@ -71,7 +70,7 @@ exports.find_game_by_key_word = function(req, res) {
   })
   // To do renvoyer les erreurs
   .catch(e => {
-    res.send(e)
+    res.send("Erreur, merci de réesayer ultérieurement")
   });
   }
 

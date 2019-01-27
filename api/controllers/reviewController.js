@@ -7,7 +7,7 @@ var mongoose = require('mongoose'),
 exports.find_review = function(req, res) {
   Review.find({gameId: req.params.gameId}, function(err, review) {
     if (err)
-      res.send(err);
+      res.send("Une erreur s'est produite lors de la récupération des données");
     res.json(review);
   });
 };
@@ -16,7 +16,7 @@ exports.find_all_user_reviews = function(req, res) {
   Review.find({userId: req.params.userId}, function(err, review) {
     if (err)
     {
-      console.error(err);
+      res.send("Une erreur s'est produite lors de la récupération des données");
       res.json(err);
     }
     res.json(review);
@@ -30,7 +30,7 @@ exports.create_a_review = function(req, res) {
   new_review.gameId = req.params.gameId;
   new_review.save(function(err, review) {
     if (err)
-      res.send(err);
+      res.send("Une erreur s'est produite lors de la création de la review");
     res.json(review);
   });
 };
@@ -38,7 +38,7 @@ exports.create_a_review = function(req, res) {
 exports.update_a_review = function(req, res) {
   Review.findOneAndUpdate({userId: req.params.userId}, req.body, {new: true}, function(err, review) {
     if (err)
-      res.send(err);
+      res.send("Une erreur s'est produite lors de la mise à jour de la review");
     res.json(review);
   });
 };
@@ -50,7 +50,7 @@ exports.delete_a_review = function(req, res) {
     gameId: req.params.gameId
   }, function(err, review) {
     if (err)
-      res.send(err);
+      res.send("Une erreur s'est produite lors de la suppression de la review");
     res.json({ message: 'review successfully deleted' });
   });
 };
