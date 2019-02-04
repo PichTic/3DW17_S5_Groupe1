@@ -3,7 +3,8 @@ var express = require('express'),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
   Review = require('./api/models/reviewModel'), //created model loading here
-  bodyParser = require('body-parser');
+  bodyParser = require('body-parser'),
+  cors = require('cors');
 
 // mongoose instance connection url connection
 mongoose.Promise = global.Promise;
@@ -13,6 +14,8 @@ app.listen(port);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cors());
 
 var routes = require('./api/routes/reviewRoutes'); //importing route
 routes(app); //register the route
