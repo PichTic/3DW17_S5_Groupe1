@@ -23,11 +23,15 @@ exports.find_all_user_reviews = function(req, res) {
 };
 
 exports.create_a_review = function(req, res) {
-  var new_review = new Review(req.body);
-  console.log(req);
-  new_review.userId = req.params.userId;
-  new_review.gameId = req.params.gameId;
-  new_review.save(function(err, review) {
+  const conditions = {
+    userId: req.params.userId,
+    gameId: req.params.gameId,
+  }
+  const options = {
+    new: true,
+    upsert: true,
+  }
+  Review.findOneAndUpdate(conditions, req.body, options, function(err, review) {
     if (err)
       res.send("Une erreur s'est produite lors de la création de la review");
     res.json(review);
