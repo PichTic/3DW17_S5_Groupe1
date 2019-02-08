@@ -63,7 +63,7 @@ exports.find_cover_by_id = function (req, res) {
       "user-key": api_key,
       Accept: "application/json"
     },
-      data: {"fields alpha_channel,animated,game,height,image_id,url,width; where game = "+req.params.gameId},
+      data: "fields image_id; where game=" + req.params.gameId + ";"
   })
   .then(response => {
     res.json(response.data);
