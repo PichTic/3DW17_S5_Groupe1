@@ -16,6 +16,9 @@ module.exports = function(app) {
   app.route('/game/:gameId')
     .get(game.find_game_by_id);
 
+  app.route('/img/:gameId')
+    .get(game.find_cover_by_id);
+
   app.route('/search/:text')
     .get(game.find_game_by_key_word);
 

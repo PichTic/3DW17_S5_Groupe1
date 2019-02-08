@@ -53,6 +53,31 @@ exports.find_game_by_id = function (req, res) {
 
 };
 
+exports.find_cover_by_id = function (req, res) {
+  var result = cache_retrieve(req.params.gameId);
+  if (result !== false) {
+    res.json(result);
+  } else {
+  axios.get("https://api-v3.igdb.com/covers/", {
+    headers: {
+      "user-key": api_key,
+      Accept: "application/json"
+    },
+      data: {"fields alpha_channel,animated,game,height,image_id,url,width; where game = "+req.params.gameId},
+  })
+  .then(response => {
+    res.json(response.data);
+    cache_store(response.data, req.params.gameId);
+    
+  })
+  // To do renvoyer les erreurs
+  .catch(e => {
+    res.send(e)
+  });
+  }
+
+};
+
 exports.find_game_by_key_word = function(req, res) {
   var result = cache_retrieve(req.params.text);
   if (result !== false) {
