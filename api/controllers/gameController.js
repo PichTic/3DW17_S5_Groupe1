@@ -35,7 +35,7 @@ function cache_store(json, id, type) {
       }
       
     });
-    console.log("DEBUG BDD OK");
+    console.log("-----------DEBUG BDD OK---------------");
     return true;
   }
   catch(error) {
@@ -45,27 +45,25 @@ function cache_store(json, id, type) {
   
 }
 
-function cache_retrieve(id){
+async function cache_retrieve(id, type){
   try{
-    Cache.findOne({gameId: id}, 'Content', function (err, cache) {
+    var result = await Cache.findOne({gameId: id, Type: type}, 'Content',  async function (err, cache) {
     if (err){
       console.log(err);
     }
-    console.log(cache);
-    return cache;
+    return cache['Content'];
   });
+    return result;
   }
   catch(error){
-    console.log(error);
-    return false;    
+    console.log(error);   
   }
 
 }
 
-exports.find_game_by_id = function (req, res) {
-  var result = cache_retrieve(req.params.gameId);
-  console.log(result);
-  if (undefined != undefined) {
+exports.find_game_by_id = async function (req, res) {
+  var result = await cache_retrieve(req.params.gameId, "Game");
+  if (result != undefined) {
     res.json(result);
   } else {
   axios.get("https://api-v3.igdb.com/games/" + req.params.gameId + "?fields=*", {
@@ -76,7 +74,7 @@ exports.find_game_by_id = function (req, res) {
   })
   .then(response => {
     res.json(response.data);
-    cache_store(response.data, req.params.gameId, "Tipe");
+    cache_store(response.data, req.params.gameId, "Game");
     
   })
   // To do renvoyer les erreurs
@@ -87,9 +85,9 @@ exports.find_game_by_id = function (req, res) {
 
 };
 
-exports.find_cover_by_id = function (req, res) {
-  var result = cache_retrieve(req.params.gameId + "img");
-  if (result !== false) {
+exports.find_cover_by_id = async function (req, res) {
+  var result = await cache_retrieve(req.params.gameId, "Image");
+  if (result != undefined) {
     res.json(result);
   } else {
   axios.get("https://api-v3.igdb.com/covers/", {
@@ -101,7 +99,7 @@ exports.find_cover_by_id = function (req, res) {
   })
   .then(response => {
     res.json(response.data);
-    cache_store(response.data, req.params.gameId + "img");
+    cache_store(response.data, req.params.gameId, "Image");
     
   })
   // To do renvoyer les erreurs
@@ -112,9 +110,9 @@ exports.find_cover_by_id = function (req, res) {
 
 };
 
-exports.find_game_by_key_word = function(req, res) {
-  var result = cache_retrieve(req.params.text);
-  if (result !== false) {
+exports.find_game_by_key_word = async function(req, res) {
+  var result = await cache_retrieve(req.params.text, "Keyword");
+  if (result != undefined) {
     res.json(result);
   } else {
     axios.get("https://api-v3.igdb.com/games/?fields=*&limit=20&offset=0&search=" + req.params.text, {
@@ -125,7 +123,7 @@ exports.find_game_by_key_word = function(req, res) {
   })
   .then(response => {
     res.json(response.data);
-    cache_store(response.data, req.params.text);
+    cache_store(response.data, req.params.text, "Keyword");
   })
   // To do renvoyer les erreurs
   .catch(e => {
