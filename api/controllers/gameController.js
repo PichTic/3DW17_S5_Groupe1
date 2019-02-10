@@ -33,30 +33,29 @@ function cache_store(json, id, type) {
       if (err){
         console.log("CREATE FAIL");
       }
-      
+
     });
     console.log("-----------DEBUG BDD OK---------------");
     return true;
   }
   catch(error) {
     console.log(error);
-    return false;    
+    return false;
   }
-  
+
 }
 
 async function cache_retrieve(id, type){
-  try{
+  try {
     var result = await Cache.findOne({gameId: id, Type: type}, 'Content',  async function (err, cache) {
-    if (err){
-      console.log(err);
-    }
-    return cache['Content'];
-  });
-    return result;
-  }
-  catch(error){
-    console.log(error);   
+      if (err) {
+        console.log(err);
+      }
+      return cache.Content;
+    });
+    return result.Content;
+  } catch(error) {
+    console.log(error);
   }
 
 }
@@ -75,7 +74,7 @@ exports.find_game_by_id = async function (req, res) {
   .then(response => {
     res.json(response.data);
     cache_store(response.data, req.params.gameId, "Game");
-    
+
   })
   // To do renvoyer les erreurs
   .catch(e => {
@@ -100,7 +99,7 @@ exports.find_cover_by_id = async function (req, res) {
   .then(response => {
     res.json(response.data);
     cache_store(response.data, req.params.gameId, "Image");
-    
+
   })
   // To do renvoyer les erreurs
   .catch(e => {
