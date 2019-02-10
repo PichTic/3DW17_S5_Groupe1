@@ -54,7 +54,7 @@ exports.find_game_by_id = function (req, res) {
 };
 
 exports.find_cover_by_id = function (req, res) {
-  var result = cache_retrieve(req.params.gameId);
+  var result = cache_retrieve(req.params.gameId + "img");
   if (result !== false) {
     res.json(result);
   } else {
@@ -67,7 +67,7 @@ exports.find_cover_by_id = function (req, res) {
   })
   .then(response => {
     res.json(response.data);
-    cache_store(response.data, req.params.gameId);
+    cache_store(response.data, req.params.gameId + "img");
     
   })
   // To do renvoyer les erreurs
