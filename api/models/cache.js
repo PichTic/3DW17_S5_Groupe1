@@ -9,7 +9,7 @@ var CacheSchema = new Schema({
     required: 'Identifiant obligatoire'
   },
   Content: {
-    type: Array,
+    type: String,
     required: 'Contenu obligatoire'
   },
   Type: {

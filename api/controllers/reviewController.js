@@ -2,8 +2,7 @@
 
 
 var mongoose = require('mongoose'),
-  Review = mongoose.model('Reviews'),
-  Cache = mongoose.model('Cache');
+  Review = mongoose.model('Reviews');
 
 exports.find_review = function(req, res) {
   Review.find({gameId: req.params.gameId}, function(err, review) {
