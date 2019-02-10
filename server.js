@@ -3,6 +3,7 @@ var express = require('express'),
   port = process.env.PORT || 3000,
   mongoose = require('mongoose'),
   Review = require('./api/models/reviewModel'), //created model loading here
+  Cache = require('./api/models/cacheModel'), //created model loading here
   bodyParser = require('body-parser'),
   cors = require('cors');
 
